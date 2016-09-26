@@ -1,0 +1,311 @@
+/* 头部开始 */
+img{
+	width:100%;
+}
+a{
+	display:block;
+}
+body{
+	min-width: 320px;
+	margin: 0 auto;
+	background:#f0f0f0;
+}
+header{
+	height: 40px;
+	background: #333;
+	padding: 0 20px;
+	color: #fff;
+}
+header h1{
+	width: 107px;
+	height:40px;
+	background:url("../images/logo.png") no-repeat 50% 50%;
+	background-size: 100%;
+	text-indent: -9999em;
+}
+.icon-wode,.icon-sousuo{
+	display: block;
+	font-size: 20px;
+	line-height: 40px;
+	padding-left: 10px;
+	color:#fff;
+}
+/* 头部结束 */
+/* 导航开始 */
+.nav{
+	padding:0 20px;
+	line-height:38px;
+	text-align: center;
+	display:-webkit-box;    
+	background: #fff;
+}
+.nav li{
+	-webkit-box-flex:1;
+}
+.nav li a{
+	width:100%;
+	height:100%;
+}
+.nav li a span.active{
+	color:#ff7800;
+	border-bottom: 2px solid #ff7800;
+	line-height:38px;
+	height:38px;
+	box-sizing: border-box;
+	display:inline-block;
+}
+/* 导航结束 */
+/* 轮播图开始 */
+.swiper-container {
+	width:100%;
+    height: 100%;
+} 
+/* 轮播图结束 */
+
+/* 广告开始 */
+section{
+	margin: 7px 0;
+	position: relative;
+}
+.ads a{
+	padding:10px 20px 18px 20px;
+	background:#fff;
+}
+.logo1{
+	width:70px;
+	height:70px;
+}
+.ads span{
+	position:absolute;
+	right: 6px;
+	top:10px;
+	padding:6px 18px;
+	background:#2796dd;
+	border-radius: 18px;
+	color:#fff;
+}
+.ads1{
+	width:70%;
+	margin-left: 8px;
+}
+.ads1 h3{
+	padding-bottom: 14px;
+	padding-top: 8px;
+}
+.ads1 p{
+	color:#999;
+}
+/* 广告结束 */
+/* 原创频道开始 */
+.pin{
+	background:#fff;
+	padding-top:22px;
+}
+.vedio{
+	padding-left:18px;
+	border-left: 2px solid #ff7800;
+}
+.vedio span{
+	display:block;
+	border-radius:50%;
+	background:#cecece;
+	width:18px;
+	height:18px;
+	text-align:center;
+	line-height:18px;
+	font-size:12px;
+	margin-right: 20px;
+}
+.content{
+	padding:0 20px;
+}
+.theme{
+	display:-webkit-box;
+	margin-top: 12px;
+}
+.theme a{
+	height:45px;
+	-webkit-box-flex:1;
+	text-align:center;
+	line-height:45px;
+	color:#fff;
+}
+.theme a:nth-child(1){
+	background:#4aa8de;
+}
+.theme a:nth-child(2){
+	background:#f5af29;
+	margin:0 3px;
+}
+.theme a:nth-child(3){
+	background:#6ebcc9;
+}
+.theme a span{
+	padding-right: 5px;
+}
+
+.gamevideo{
+	padding-top:20px;
+	padding-bottom:0;
+}
+.gamevideo li{
+	padding-bottom: 20px;
+	position:relative;
+}
+.gamevideo a{
+	width:35%;
+}
+.gamevideo div{
+	width:65%;
+	padding-left:10px;
+	box-sizing:border-box;
+}
+.gamevideo .abs{
+	position:absolute;
+	width:60px;
+	height:16px;
+	background:#333;
+	top:5px;
+	left: 5px;
+	line-height:16px;
+	text-align:center;
+	color:#fff;
+}
+.gamevideo p{
+	padding-bottom: 10px;
+}
+.gamevideo em{
+	font-style: normal;
+	color:#ffc28c;
+}
+.more{
+	height:50px;
+	background:#fff;
+	border-top: 1px solid #e9e9e9;
+}
+.more div{
+	padding:8px 16px;
+	border: 1px solid #e9e9e9;
+	width:30%;
+	margin:10px auto;
+	text-align:center;
+	border-radius:5px;
+}
+/* 原创频道结束 */
+/* 手机网游开始 */
+.wangyou{
+	margin: 7.5px 0;
+}
+.games{
+	width:100%;
+	height:100%;
+	margin-top:12px;
+}
+.games li{
+	float: left;
+	width:25%;
+	height:100%;
+	box-sizing:border-box;
+	border:1px solid #e9e9e9;
+	margin-left:-1px;
+}
+.games a{
+	padding:10px 13px;
+	box-sizing: border-box;
+	width:100%;
+	text-align:center;
+}
+.games a img{
+	margin-bottom: 8px;
+}
+/* 手机网游结束 */
+
+/*网游礼包开始*/
+.pack{
+	padding:0 20px;
+	margin-bottom:7.5px;
+	margin-top:12px;
+}
+.pack li{
+	width:33.3%;
+	float:left;
+	text-align:center;
+	// margin:0 12px;
+	box-sizing:border-box;
+}
+.pack li a{
+	width:70%;
+	margin:0 auto;
+}
+.pack p,.pack span{
+	margin:5px 0;
+}
+.pack div{
+	height:2px;
+	background:#cecece;
+	position:relative;
+	width:70%;
+	margin:0 auto;
+	margin-bottom:30px;
+	margin-top:5px;
+}
+.pack div em{
+	position:absolute;
+	width:70%;
+	height:100%;
+	background:#45b700;
+	left:0;
+	top:0;
+}
+/*网游礼包结束*/
+/*安卓游戏开始*/
+.title li{
+	float:left;
+	margin-left:16px;
+}
+.title li a{
+	color:#707070;
+}
+.andriod div{
+	width:70%;
+	height:24px;
+	text-align:center;
+	line-height:24px;
+	background:#ff9333;
+	border-radius:12px;
+}
+.andriod div a{
+	color:#fff;
+}
+/*安卓游戏结束*/
+/*轮播图开始*/
+.endwrap{
+	margin-bottom:7.5px !important;
+	height:150px;
+}
+/*轮播图结束*/
+/*尾部开始*/
+footer{
+	height:160px;
+	background:#222;
+	text-align:center;
+	color:#858585;
+}
+footer a{
+	width:30%;
+	margin:0px auto;
+	padding-top:15px;
+	padding-bottom:15px;
+}
+footer p{
+	margin-bottom:10px;
+}
+.pos{
+	position:fixed;
+	right:0;
+	bottom: 0;
+	width:100px;
+	height:100px;
+	z-index: 1;
+}
+/*尾部结束*/

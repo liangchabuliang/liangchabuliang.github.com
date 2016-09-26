@@ -1,0 +1,4061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>优酷</title>
+	<link rel="stylesheet" type="text/css" href="css/common.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script >
+		function getStyle(obj,attr){
+			return (obj.currentStyle||getComputedStyle(obj,false))[attr];
+		}
+
+		function move(obj,json,options){
+			options = options || {};
+			options.duration = options.duration || 300;
+			options.complete = options.complete || null;
+			options.easing = options.easing || 'ease-out';
+			 
+			var start={};	
+			var dis={};	
+			for(var key in json){
+				start[key]=parseFloat(getStyle(obj,key));
+				dis[key]=json[key]-start[key];
+			}
+			var count=Math.round(options.duration/30);
+			var n=0;
+			clearInterval(obj.timer);
+			obj.timer=setInterval(function(){
+				onscroll=false;
+				n++;
+				for(var key in json){
+				var cur=start[key]+dis[key]*n/count;
+				obj.style[key]=cur+'px';
+				}	
+				if(n==count){
+					clearInterval(obj.timer);
+				}
+			},30);
+		}
+		
+		function getByClass(oParent,sClass){
+			var arr=[];
+			if(oParent.getElementsByClassName){
+				arr=oParent.getElementsByClassName(sClass);
+			}else{
+				var aEl=oParent.getElementsByTagName('*');
+				for(var i=0; i<aEl.length; i++){
+					var arr1=aEl[i].className.split(' ');
+					for(var j=0; j<arr1.length; j++){
+						if(arr1[j]==sClass){
+							arr.push(aEl[i]);
+						}
+					}
+				}
+			}
+
+			return arr;
+		}
+		function change0(uu,ii,oo){
+			var oShijian=document.getElementById(uu);
+			var oD99=document.getElementById(ii);
+			var oShijian1=document.getElementById(oo);
+			oShijian.onmouseover=function(){
+				oD99.style.display='block';
+				oShijian1.style.backgroundPosition='0px -5px'
+			};
+			oShijian.onmouseout=function(){
+				oD99.style.display='none';
+				oShijian1.style.backgroundPosition='0px 0px'
+			};
+		};
+		function change1(){
+			var aA=document.getElementById('loginbar_nav').getElementsByTagName('a');
+			for (var i = 0; i < aA.length; i++) {
+				aA[i].onmouseover=function (){
+					for (var i = 0; i < aA.length; i++) {
+						aA[i].className='';
+					}
+					this.className='active';
+				};//排头导航
+			}
+			
+			var oHot=document.getElementById('hot')
+			var oImg=oHot.getElementsByTagName('img')[0];
+			var aSpan=oHot.getElementsByTagName('span');
+			for (var i = 0; i < aSpan.length; i++) {
+				aSpan[i].onclick=function(){
+					oHot.style.display='none';	
+				};
+			}//国旗
+
+			var oContent_two=document.getElementById('content_two');
+			var aJpg=getByClass(oContent_two,'jpg');
+			for (var i = 0; i <aJpg.length; i++) {
+				aImg=aJpg[i].children
+				aImg[1].onclick=function(){
+					this.parentNode.style.display='none';
+				}
+			};//我的世界
+
+			var oZui=document.getElementById('zuihou');
+			var oZui1=document.getElementById('zuihou1');
+			oZui.onmouseover=function(){
+				move(oZui1,{bottom:0},{duration:1000})
+			};
+			oZui.onmouseout=function(){
+				move(oZui1,{bottom:-109},{duration:1000})
+			};//终极一班
+		};
+		function change2(aa,bb){
+			var aA1=document.getElementById(aa).getElementsByTagName('a');
+			var aDd1=document.getElementById(bb).getElementsByTagName('dd');
+			for (var i = 0; i < aA1.length; i++) {
+				aA1[i].index=i;
+				aA1[i].onmouseover=function(){
+					for (var i = 0; i < aA1.length; i++) {
+						aA1[i].className='btts';
+						aDd1[i].style.display='none';
+					}
+					this.className='btts active';
+					aDd1[this.index].style.display='block';
+				};
+			};
+		}//选项卡
+		
+		function addEvent(obj,ev,fn){
+			if(obj.addEventListener){
+				obj.addEventListener(ev,fn,false);
+			}else{
+			obj.attachEvent('on'+ev,fn);
+			}
+		}
+		addEvent(window,'load',function(){
+			var oRun=document.getElementById('run');
+			var userScroll=false;
+			var timer=null;
+			
+			oRun.onmouseover=function(){oRun.src="img/S2.gif"}
+			oRun.onmouseout=function(){oRun.src="img/S1.png"}
+			oRun.onclick=function(){
+				move1(0,1000);
+			};
+			
+			addEvent(window,'scroll',function(){		
+				var oScrollTop=document.documentElement.scrollTop || document.body.scrollTop;
+					console.log(oScrollTop);
+				if(oScrollTop>100){
+					oRun.style.display='block';
+				}else{
+					oRun.style.display='none';
+				}
+				if(userScroll){
+					clearInterval(timer);
+				}
+				userScroll=true;	
+			});
+			
+			function move1(iTarget,time){
+				var start=document.documentElement.scrollTop||document.body.scrollTop;
+				var dis=iTarget-start;
+				var count=Math.round(time/30);
+				var n=0;
+				clearInterval(timer);
+				timer=setInterval(function(){
+					userScroll=false;
+					n++
+					var cur=start+dis*n/count;
+					document.documentElement.scrollTop=cur;
+					document.body.scrollTop=cur;
+					if(n==count){
+						clearInterval(timer)
+					
+					}
+				},30)
+			};
+		})
+		window.onload=function(){
+			change0('shijian','d99','shijian1');
+			change0('jiantou','d999','jiantou1');
+			change1();
+			change2('dbtts','content_one1');
+			change2('dbtts1','content_one2');
+			change2('dbtts2','content_one3');
+			change2('dbtts3','content_one4');
+			change2('dbtts4','content_one5');
+			change2('dbtts5','content_one6');
+			change2('dbtts6','content_one7');
+			change2('dbtts7','content_one8');
+			change2('dbtts8','content_one9');
+			change2('dbtts9','content_one10');
+			change2('dbtts10','content_one11');
+			
+		};
+	</script>
+</head>
+<body>
+<div class="container">
+	<img src="img/S1.png" id="run">
+	<div class="head clearfix">
+		<div class="loginbar clearfix">
+			<div class="d99" id="d99">
+				<img src="img/99.png" alt="">
+			</div>
+			<div class="d999" id="d999">
+				<img src="img/999.png" alt="">
+			</div>
+			<div class="www">
+				<img src="img/www.png" alt="">
+			</div>
+			<div class="wwww">
+				<img src="img/wwww.png" alt="">
+			</div>
+			<h1class="loginbar_yk" href="javascript:;">
+				<img src="img/youk.png" alt="">
+			</h1>
+			<div id="loginbar_nav" class="loginbar_nav clearfix">
+				<a class="active" href="javascript:;">首页</a>
+				<a href="javascript:;">发现</a>
+				<a href="javascript:;">订阅</a>
+				<a href="javascript:;">会员</a>
+				<a href="javascript:;">我的</a>
+			</div>
+			<ul class="loginbar_dl clearfix" href="javascript:;">
+				<li class="fl">
+					<a href="javascript:;">
+						<img src="img/ren.png" alt="">
+					</a>
+				</li >
+				<li class="fl" id="shijian">
+					<a class="shijian" href="javascript:;">
+						<img src="img/shijian.png" alt="">
+						<i id="shijian1"></i>
+					</a>
+				</li>
+				<li class="fl">
+					<a href="javascript:;">
+						<img src="img/xx.png" alt="">
+					</a>
+				</li>
+				<li class="fl" id="jiantou">
+					<a class="jiantou" href="javascript:;">
+						<img src="img/jt.png" alt="">
+						<i id="jiantou1"></i>
+					</a>
+				</li>
+			</ul>
+			<div class="soso clearfix fr">
+				<input class="fl" type="text">
+				<a class="fl" href="javascript:;">搜库</a>
+			</div>
+		</div>
+		<div class="chenz"></div>
+		<div class="nav">
+			<div class="nav_wz clearfix">
+				<a class="active" href="javascript:;">首页</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+				<a href="javascript:;">电视剧</a>
+			</div>
+			<a class="hot" id="hot" href="javascript:;">
+				<img src="img/gg.png" alt="">
+				<span id="span1"></span>
+				<span id="span2">X关闭</span>
+			</a>
+			<div class="navtp">
+				<ul class="clearfix navtpleft fl" id="navtpleft">
+					<li class="fl zuihou" id="zuihou">
+						<a href="javascript:;">
+							<img src="img/1.png" alt="">
+						</a>
+						<img class="hh" id="zuihou1"  src="img/hh.png" alt="">
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;">
+							<img src="img/2.png" alt="">
+						</a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;">
+							<img src="img/2.png" alt="">
+
+						</a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+				</ul>
+				<ul class="clearfix navtpcenter fl">
+					<li class="fl hhhhh">
+						<a href="javascript:;"><img src="img/2.png" alt=""></a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;"><img src="img/2.png" alt=""></a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;"><img src="img/2.png" alt=""></a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;"><img src="img/2.png" alt=""></a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;"><img src="img/2.png" alt=""></a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;"><img src="img/2.png" alt=""></a>
+						<img class="hhh" src="img/hh1.png" alt="">
+					</li>
+				</ul>
+				<ul class="clearfix navtpright fl">
+					<li class="fl">
+						<a href="javascript:;">
+							<img src="img/3.png" alt="">
+						</a>
+					</li>
+					<li class="fl">
+						<a class="ts hhhhh" href="javascript:;">
+							<img src="img/2.png" alt="">
+							<img class="hhh" src="img/hh1.png" alt="">
+						</a>
+						<a class="hhhhh" href="javascript:;">
+							<img src="img/2.png" alt="">
+							<img class="hhh" src="img/hh1.png" alt="">
+						</a>
+					</li>
+					<li class="fl hhhhh">
+						<a href="javascript:;">
+							<img src="img/4.png" alt="">
+						</a>
+						<img class="hhh" src="img/2323.png" alt="">
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img class="tupian" src="img/6.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">七月热门独播</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<a class="fr">
+					<img src="img/9.png" alt="">
+				</a>
+			</dt>
+			<dd class="fl content_onenr hhhhh">
+				<a href="javascript:;">
+					<img src="img/5.png" alt="">
+				</a>
+				<img class="hhh" src="img/hh1.png" alt="">
+				<h3>蒋劲夫被俘追杀张艺兴</h3>
+				<span>叛变甘当肉盾</span>
+			</dd>
+			<dd class="fl content_onenr hhhhh">
+				<a href="javascript:;">
+					<img src="img/5.png" alt="">
+				</a>
+				<img class="hhh" src="img/hh1.png" alt="">
+				<h3>蒋劲夫被俘追杀张艺兴</h3>
+				<span>叛变甘当肉盾</span>
+			</dd>
+			<dd class="fl content_onenr hhhhh">
+				<a href="javascript:;">
+					<img src="img/5.png" alt="">
+				</a>
+				<img class="hhh" src="img/hh1.png" alt="">
+				<h3>蒋劲夫被俘追杀张艺兴</h3>
+				<span>叛变甘当肉盾</span>
+			</dd>
+			<dd class="fl content_onenr hhhhh">
+				<a href="javascript:;">
+					<img src="img/5.png" alt="">
+				</a>
+				<img class="hhh" src="img/hh1.png" alt="">
+				<h3>蒋劲夫被俘追杀张艺兴</h3>
+				<span>叛变甘当肉盾</span>
+			</dd>
+			<dd class="fl content_onenr hhhhh">
+				<a href="javascript:;">
+					<img src="img/5.png" alt="">
+				</a>
+				<img class="hhh" src="img/hh1.png" alt="">
+				<h3>蒋劲夫被俘追杀张艺兴</h3>
+				<span>叛变甘当肉盾</span>
+			</dd>
+			<dd class="fl content_onenr hhhhh">
+				<a href="javascript:;">
+					<img src="img/5.png" alt="">
+				</a>
+				<img class="hhh" src="img/hh1.png" alt="">
+				<h3>蒋劲夫被俘追杀张艺兴</h3>
+				<span>叛变甘当肉盾</span>
+			</dd>
+		</dl>
+		<div class="clearfix">
+			<dl class="content_one clearfix content_two fl" id="content_two">
+				<dt class="clearfix content_onetitle">
+					<a class="fl" href="javascript:;">
+						<img class="tupian" src="img/11.png" alt="">
+					</a>
+					<a class="fl ts" href="javascript:;">优酷等你</a>
+					<a class="fl ts1">
+						<img src="img/7.png" alt="">
+					</a>
+					<a class="fr hyh">
+						<img src="img/13.png" alt="">
+						换一换
+					</a>
+				</dt>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr tss hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+				<dd class="fl content_onenr tss hhhhh">
+					<a href="javascript:;">
+						<img src="img/12.png" alt="">
+					</a>
+					<a href="javascript:;" class="jpg">
+					<img class="hhh" src="img/hh1.png" alt="">
+					<img class="xxx" src="img/xxx.png" alt="">
+					</a>
+					<h3>我的世界Minecefraft</h3>
+					<span>22.62次播放 786次评论</span>
+				</dd>
+			</dl>
+			<dl class="content_one clearfix fl content_twott">
+				<dt class="clearfix content_onetitle ">
+					
+					<a class="fl ts" href="javascript:;">产品大全</a>
+					<a class="fl ts1">
+						<img src="img/7.png" alt="">
+					</a>
+				</dt>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+				<dd class="clearfix nav_rightdd">
+					<span class="fl"></span>
+					<div class="fl clearfix nav_right">
+						<a class="fl nav_right1" href="javascript:;">来 风</a>
+						<i class="fl">|</i>
+						<a class="fl ts" href="javascript:;">热门主播</a>
+						<a class="fl ts" href="javascript:;">来风APP</a>
+					</div>
+				</dd>
+			</dl>
+			<a class="ggd" href="javascript:;">
+				<img src="img/33.png" alt="">
+			</a>
+		</div>
+		<dl class="content_one clearfix" id="content_one1">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img class="tupian" src="img/111.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">原创.出品</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts">
+					<a class="btts active" href="javascript:;">最佳原创</a>
+					<a class="btts" href="javascript:;">优酷出品</a>
+				</div>
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/222.png" alt="">
+					</a>
+					<h3>三分钟明白如此重要</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/222.png" alt="">
+					</a>
+					<h3>三分钟明白如此重要</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/222.png" alt="">
+					</a>
+					<h3>三分钟明白如此重要</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/222.png" alt="">
+					</a>
+					<h3>三分钟明白如此重要</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/222.png" alt="">
+					</a>
+					<h3>三分钟明白如此重要</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/222.png" alt="">
+					</a>
+					<h3>三分钟明白如此重要</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sst.png" alt="">
+					</a>
+					<h3>那些年追的港剧男神</h3>
+					<span>20万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sst.png" alt="">
+					</a>
+					<h3>那些年追的港剧男神</h3>
+					<span>20万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sst.png" alt="">
+					</a>
+					<h3>那些年追的港剧男神</h3>
+					<span>20万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sst.png" alt="">
+					</a>
+					<h3>那些年追的港剧男神</h3>
+					<span>20万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sst.png" alt="">
+					</a>
+					<h3>那些年追的港剧男神</h3>
+					<span>20万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sst.png" alt="">
+					</a>
+					<h3>那些年追的港剧男神</h3>
+					<span>20万次播放 207次评论</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one2">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/1112.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">电视剧</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts1">
+					<a class="btts active" href="javascript:;">最新</a>
+					<a class="btts" href="javascript:;">大陆剧</a>
+					<a class="btts" href="javascript:;">日韩剧</a>
+					<a class="btts" href="javascript:;">英美剧</a>
+					<a class="btts" href="javascript:;">港台剧</a>
+				</div>
+				<div class="fr clearfix dsjph">
+					<a class="fl" href="javascript:;">
+						<img src="img/112.png" alt="">
+					</a>
+					<span class="fl">电视剧排行</span>
+				</div>
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/121.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/122.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hqg.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/lyb.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/xgl1.png" alt="">
+					</a>
+					<h3>学校2015</h3>
+					<span>鲜肉校草狂炫校友力</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/1211.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">放剧场</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+			
+			</dt>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/1121.png" alt="">
+				</a>
+				<h3>三分钟明白如此重要</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/1121.png" alt="">
+				</a>
+				<h3>三分钟明白如此重要</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/1121.png" alt="">
+				</a>
+				<h3>三分钟明白如此重要</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/1121.png" alt="">
+				</a>
+				<h3>三分钟明白如此重要</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/1121.png" alt="">
+				</a>
+				<h3>三分钟明白如此重要</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/1121.png" alt="">
+				</a>
+				<h3>三分钟明白如此重要</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+		</dl>
+		<div>
+			<a class="ggd" href="javascript:;">
+				<img src="img/33.png" alt="">
+			</a>
+		</div>
+		<dl class="content_one clearfix" id="content_one3">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img class="tupian" src="img/2221.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">综艺</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts2">
+					<a class="btts active" href="javascript:;">热播综艺</a>
+					<a class="btts" href="javascript:;">大陆综艺</a>
+					<a class="btts" href="javascript:;">海外综艺</a>
+					<a class="btts" href="javascript:;">自制综艺</a>
+				</div>
+				<div class="fr clearfix dsjph">
+					
+					<span class="fl">电视剧排行</span>
+				</div>
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/211.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1212.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/dlzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hwzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zzzy1.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix diany" id="content_one4">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/321.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">电影</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts3">
+					<a class="btts active" href="javascript:;">最新</a>
+					<a class="btts" href="javascript:;">壹影院</a>
+					<a class="btts" href="javascript:;">好莱坞</a>
+					<a class="btts" href="javascript:;">预告片</a>
+					<a class="btts" href="javascript:;">微影院</a>
+				</div>
+				<div class="fr clearfix dsjph">
+					
+					<span class="fl">电影排行</span>
+				</div>
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2122.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/1213.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2122.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wbq1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tnj1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ygp1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wdy1.png" alt="">
+					</a>
+					<h3>坏蛋必须死</h3>
+					<span>孙艺珍陈博林啼笑情缘</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/3213.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">动漫</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+			
+			</dt>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2223.png" alt="">
+				</a>
+				<h3>爆音少女</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2223.png" alt="">
+				</a>
+				<h3>爆音少女</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2223.png" alt="">
+				</a>
+				<h3>爆音少女</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2223.png" alt="">
+				</a>
+				<h3>爆音少女</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2223.png" alt="">
+				</a>
+				<h3>爆音少女</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2223.png" alt="">
+				</a>
+				<h3>爆音少女</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/1122.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">少儿</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts">
+					<a class="btts" href="javascript:;">小小优酷APP</a>
+					<a class="btts" href="javascript:;">宝迪学英文</a>
+					<a class="btts" href="javascript:;">奇妙故事会</a>
+				</div>
+			</dt>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2111.png" alt="">
+				</a>
+				<h3>小济公</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2111.png" alt="">
+				</a>
+				<h3>小济公</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2111.png" alt="">
+				</a>
+				<h3>小济公</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2111.png" alt="">
+				</a>
+				<h3>小济公</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2111.png" alt="">
+				</a>
+				<h3>小济公</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2111.png" alt="">
+				</a>
+				<h3>小济公</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/0000.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">专题精选</a>
+				
+				
+			</dt>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2113.png" alt="">
+				</a>
+				<h3>联通用户买会员送流量</h3>
+				
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2113.png" alt="">
+				</a>
+				<h3>联通用户买会员送流量</h3>
+				
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2113.png" alt="">
+				</a>
+				<h3>联通用户买会员送流量</h3>
+				
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2113.png" alt="">
+				</a>
+				<h3>联通用户买会员送流量</h3>
+				
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2113.png" alt="">
+				</a>
+				<h3>联通用户买会员送流量</h3>
+				
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2113.png" alt="">
+				</a>
+				<h3>联通用户买会员送流量</h3>
+				
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/3211.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">自频道精选</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+			
+			</dt>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+				<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/3212.png" alt="">
+				</a>
+				<h3>屌丝小三秒杀深得妇男</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one5">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img class="tupian" src="img/433.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">娱乐</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts4">
+					<a class="btts active" href="javascript:;">娱乐资讯</a>
+					<a class="btts" href="javascript:;">电视资讯</a>
+					<a class="btts" href="javascript:;">电影资讯</a>
+				</div>
+				
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jnl.png" alt="">
+					</a>
+					<h3>贾乃亮带女儿出游，田曦现金句</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/bb.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>贾乃亮带女儿出游，田曦现金句</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mx.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>贾乃亮带女儿出游，田曦现金句</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/slk.png" alt="">
+					</a>
+					<h3>德国 模特隆胸隆出最大胸</h3>
+					<span>8.9万次播放 3次评论</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one6">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/2224.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">资讯</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts5">
+					<a class="btts" href="javascript:;">资讯</a>
+					<a class="btts" href="javascript:;">拍客</a>
+					<a class="btts" href="javascript:;">军事</a>
+				</div>
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/gcd.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/gcd.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/gcd.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/gcd.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/gcd.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/gcd.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+			</dd>
+			<dd >
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sx.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sx.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sx.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sx.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sx.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/sx.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+			</dd>
+			<dd >
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/zdj.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/zdj.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/zdj.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/zdj.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/zdj.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+				<div class="fl content_onenr">
+					<a href="javascript:;">
+						<img src="img/zdj.png" alt="">
+					</a>
+					<h3>中国共产党成立95周年特别节目</h3>
+					<span>10.9万次播放 207次评论</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/gx.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">搞笑</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+			
+			</dt>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+				<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+			<dd class="fl content_onenr">
+				<a href="javascript:;">
+					<img src="img/2222.png" alt="">
+				</a>
+				<h3>婴儿掉进游泳池麻麻见死不救</h3>
+				<span>10.9万次播放 207次评论</span>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one7">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img class="tupian" src="img/yy.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">音乐</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts6">
+					<a class="btts active" href="javascript:;">日荐</a>
+					<a class="btts" href="javascript:;">完年</a>
+					<a class="btts" href="javascript:;">初放送</a>
+					<a class="btts" href="javascript:;">华语音乐</a>
+					<a class="btts" href="javascript:;">日韩音乐</a>
+					<a class="btts" href="javascript:;">欧美音乐</a>
+				</div>
+				<div class="fr clearfix dsjph">
+					
+					<span class="fl">音乐排行</span>
+				</div>
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wn.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wn.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wn.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wn.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wn.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/wn.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mkf.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mkf.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mkf.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mkf.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mkf.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mkf.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zjl.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zjl.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zjl.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zjl.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zjl.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/zjl.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rhy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rhy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rhy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rhy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rhy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rhy.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/rh.png" alt="">
+					</a>
+					<h3>老郭揭于谦新爱好</h3>
+					<span>德云社20周年优酷专场</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one8">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/lf.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">来疯直播</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts7">
+					<a class="btts active" href="javascript:;">推荐</a>
+					<a class="btts" href="javascript:;">甜心派</a>
+					<a class="btts" href="javascript:;">好声音</a>
+					<a class="btts" href="javascript:;">劲舞趴</a>
+					<a class="btts" href="javascript:;">才艺咖</a>
+					<a class="btts" href="javascript:;">男人帮</a>
+					<a class="btts" href="javascript:;">脱口秀</a>
+					<a class="btts" href="javascript:;">最新星</a>
+				</div>
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/txp.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/txp.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/txp.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/txp.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/txp.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/txp.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hsy.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hsy.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hsy.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hsy.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hsy.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/hsy.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jwb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jwb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jwb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jwb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jwb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jwb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/cyk.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/cyk.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/cyk.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/cyk.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/cyk.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/cyk.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/nrb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/nrb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/nrb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/nrb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/nrb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/nrb.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tkx.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tkx.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tkx.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tkx.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tkx.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/tkx.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ww.png" alt="">
+					</a>
+					<h3>魔音大喻男女声</h3>
+					<span>2445人正在观看</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/mz.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">教育.人文</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				
+			</dt>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/qq.png" alt="">
+				</a>
+				<h3>追星到底是不是病</h3>
+				<span>14.9万次播放 154次评论</span>
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/qq.png" alt="">
+				</a>
+				<h3>追星到底是不是病</h3>
+				<span>14.9万次播放 154次评论</span>
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/qq.png" alt="">
+				</a>
+				<h3>追星到底是不是病</h3>
+				<span>14.9万次播放 154次评论</span>
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/qq.png" alt="">
+				</a>
+				<h3>追星到底是不是病</h3>
+				<span>14.9万次播放 154次评论</span>
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/qq.png" alt="">
+				</a>
+				<h3>追星到底是不是病</h3>
+				<span>14.9万次播放 154次评论</span>
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/qq.png" alt="">
+				</a>
+				<h3>追星到底是不是病</h3>
+				<span>14.9万次播放 154次评论</span>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one9">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/zb.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">生活时尚</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts8">
+					<a class="btts active" href="javascript:;">生活方式</a>
+					<a class="btts" href="javascript:;">品味时尚</a>
+				</div>
+				
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/ss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+			</dd>
+			<dd >
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/pwss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/pwss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/pwss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/pwss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/pwss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/pwss.png" alt="">
+					</a>
+					<h3>打造欧美装 拜托扁平脸</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one10">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img class="tupian" src="img/ly.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">旅游.亲子</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts9">
+					<a class="btts active" href="javascript:;">旅游户外</a>
+					<a class="btts" href="javascript:;">亲子萌宝</a>
+				</div>
+				
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/mb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/qzmb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/qzmb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/qzmb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/qzmb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/qzmb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/qzmb.png" alt="">
+					</a>
+					<h3>孕期失眠怎么破</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix" id="content_one11">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img  class="tupian" src="img/cc.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">汽车.科技</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+				<div class="fl dbtts" id="dbtts10">
+					<a class="btts active" href="javascript:;">汽车科技</a>
+					<a class="btts" href="javascript:;">科技聚焦</a>
+				</div>
+				
+			</dt>
+			<dd style="display: block;">
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2233.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2233.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2233.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2233.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2233.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/2233.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+			</dd>
+			<dd>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jjkj.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jjkj.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jjkj.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jjkj.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jjkj.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+				<div class="fl content_onenr dsjnr">
+					<a href="javascript:;">
+						<img src="img/jjkj.png" alt="">
+					</a>
+					<h3>三傻大闹蒙特卡洛</h3>
+					<span>46.6万次播放 16次评论</span>
+				</div>
+			</dd>
+		</dl>
+		<dl class="content_one clearfix">
+			<dt class="clearfix content_onetitle">
+				<a class="fl" href="javascript:;">
+					<img src="img/pp1.png" alt="">
+				</a>
+				<a class="fl ts" href="javascript:;">品牌官网</a>
+				<a class="fl ts1">
+					<img src="img/7.png" alt="">
+				</a>
+			
+			</dt>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/pp.png" alt="">
+				</a>
+				<h3>Dior</h3>
+				
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/pp.png" alt="">
+				</a>
+				<h3>Dior</h3>
+				
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/pp.png" alt="">
+				</a>
+				<h3>Dior</h3>
+				
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/pp.png" alt="">
+				</a>
+				<h3>Dior</h3>
+				
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/pp.png" alt="">
+				</a>
+				<h3>Dior</h3>
+				
+			</dd>
+			<dd class="fl content_onenr dsjnr">
+				<a href="javascript:;">
+					<img src="img/pp.png" alt="">
+				</a>
+				<h3>Dior</h3>
+				
+			</dd>
+		</dl>
+	</div>
+</div>	
+</body>
+</html>

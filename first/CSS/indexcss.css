@@ -1,0 +1,70 @@
+
+img{height:100%;width:100%;}
+.container{
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:-1;
+	background-attachment:fixed;
+	background:url(../img/bj.png) no-repeat;
+	background-size:100% 100%;
+	width:100%;
+	height:100%;
+}
+.nav{position:absolute;top:-140px;left:140px;}
+.person,.works,.technique,.evaluation,.other{
+	width:120px;
+	height:115px;
+	position:absolute;
+	left:360px;
+	top:0;
+	background-image:url(../img/yezi.png);
+	background-size:100%;
+	
+}
+.nav p{position:absolute;top:50px;left:25px;display:none;font:20px/1 "汉仪立黑简";color:#000;
+}
+.person p{transform:rotate(-3deg);}
+.works p{transform:rotate(13deg);}
+.technique p{transform:rotate(-3deg);}
+.evaluation p{transform:translateX(15px) rotate(13deg);}
+.other p{transform:rotate(-3deg);}
+column{position:absolute;top:0;left:0;}
+.column_first{
+	width:578px;height:570px;position:absolute;left:345px;top:-570px;
+	background:url(../img/geren.png);background-size:100% 100%;
+}
+.back{width:129px;height:92px;position:fixed;bottom:10px;right:10px;display:none;z-index=99999;}
+
+.column_second{width:600px;position:absolute;top:-411px;left:270px;opacity:0;}
+.column_second li{width:120px;height:120px; float:left; border:10px solid #F60;margin:30px; background:#fff;}
+
+.column_fourth{width:755px;overflow:hidden;margin:110px auto;font-family:"Microsoft YaHei";display:none;}
+.commentOn{width:753px;display:block;overflow:hidden;border:#a5bcff solid 1px;background:#f3f8fd;font-family:Verdana}
+.reply{overflow:hidden;padding:0 20px;background:#FFF;border-top:#e9e9e9 solid 1px;border-bottom:#e9e9e9 solid 1px}
+.userInfo{display:block;overflow:hidden;height:25px;border-bottom:#bababa solid 1px}
+.userName{float:left;background:url(../img/userBj.png) left center no-repeat;padding-left:15px;color:#000;font-size:14px;font-weight:bold}
+.replyTime{float:left;color:#8b8585;line-height:30px;font-size:11px}
+.replyContent{line-height:24px;font-size:14px;color:#2b2b2b;font-family:"Microsoft YaHei"}
+.operation{clear:both;width:100%;height:30px;margin-top:8px}
+.handle{float:right;padding-top:6px}
+.handle a{text-decoration:none;float:left;margin-left:12px;background:url(../img/icons.png) 0 0 no-repeat;height:18px;line-height:18px;padding-left:20px}
+.handle .top_icon{background-position:0 0}
+.handle .down_icon{background-position:0 -17px}
+.noContent{text-align:center;display:block;background:#FFF;font:14px/2.3 "Microsoft YaHei";border-bottom:#e9e9e9 solid 1px;border-top:#e9e9e9 solid 1px;color:#999}
+.takeComment{width:713px;display:block;overflow:hidden;border:#a5bcff solid 1px;background:#f3f8fd;margin-top:25px;font-family:Verdana;padding:15px 20px}
+.takeTextField{width:701px;height:70px;border:#b1b1b1 solid 1px;clear:both;display:block;margin:10px 0 10px 0;line-height:20px;padding:5px;box-shadow:inset 0 0 5px #DDD;font-family:"Microsoft YaHei"}
+.takeSbmComment{display:block;overflow:hidden}
+.takeSbmComment span{float:right;color:#CCC;line-height:37px;padding-right:10px}
+.inputs{float:right;width:125px;height:37px;border:none 0;background:tranparent;background:url(../img/takeSbmComment.png) left top no-repeat;cursor:pointer;opacity:.8}
+.inputs:hover{opacity:1}
+.messList{overflow:hidden}
+.page{text-align:right;font-size:0;font-family:Verdana;padding:10px 16px}
+.page a{display:inline-block;height:20px;padding:0 7px;border:#CCC solid 1px;font:12px/20px Verdana;text-decoration:none;margin-left:5px;background:#FFF}
+.page a:hover{background:#09F;color:#FFF;border-color:#09F}
+.page .active{background:#CCC}
+.column_third{margin-left:480px;margin-top:167px;color:#FFF;font:16px "微软雅黑";width:909px;display:none;}
+.CSS,.JS,.H5{width:35px;height:140px;overflow:hidden;}
+.column_third ul{background:rgba(0,0,0,0.5);width:268px;height:140px;}
+.column_third p{width:35px;height:140px;font:16px "微软雅黑";text-align:center;line-height:140px;}
+.css li,.js li,.h5 li{font:16px "微软雅黑";margin-top:7px;margin-bottom:10px;}
