@@ -205,6 +205,148 @@ window.onload=function(){
 	  		}	
 		}
 
+oEvaluation.onclick=function(){
+			oNav.className='nav animated bounceOut';
+			setTimeout(function(ev){
+					aColumn[3].className='column_fourth animated zoomIn';
+					aColumn[3].style.display='block';
+					var oSend=document.getElementById('btn1');
+					var oContent=document.getElementById('txt1');
+					var oDivList=document.getElementById('div_list');
+					var oNoMess=document.getElementsByClassName('noContent')[0];
+					var oPage=document.getElementsByClassName('page')[0];
+					e=ev||event
+					oSend.onclick=function(){
+						ajax({
+							url:	'liuyan.php',
+							data:	{act:'add',content:oContent.value},
+							success:function(str){
+								//：{error:0, id: 新添加内容的ID, time: 添加时间}
+								var json=eval('('+str+')');
+								if(json.error==0){
+									getPageMsg(1);
+									getPage();
+									oContent.value='';
+									oContent.focus();
+								}
+							}	
+						});	
+					};
+					function createDiv(id,content,time,acc,ref){
+						var oDiv=document.createElement('div');
+						var d=new Date();
+						d.setTime(time*1000)//同步本地时间对象
+						//2011-09-08 16:37:60
+						var year=d.getFullYear();
+						var month=d.getMonth()+1;
+						var date=d.getDate();
+						var hours=d.getHours();
+						var minutes=d.getMinutes();
+						var seconds=d.getSeconds();
+						var t=year+'-'+month+'-'+date+' '+hours+':'+minutes+':'+seconds;
+						oDiv.className='reply';
+						oDiv.innerHTML=
+					'<p class="replyContent">'+content+'</p>\
+					<p class="operation">\
+						<span class="replyTime">'+t+'</span>\
+						<span class="handle">\
+							<a href="javascript:;" class="top">'+acc+'</a>\
+							<a href="javascript:;" class="down_icon">'+ref+'</a>\
+						</span>\
+					</p>';
+						var oAcc=oDiv.getElementsByTagName('a')[0];
+						oAcc.onclick=function(){
+							//weibo.php?act=acc&id=12	
+							ajax({
+								url:	'liuyan.php',
+								data:	{act:'acc',id:id},
+								success:function(str){
+									//{error:0}
+									if(eval('('+str+')').error==0){
+										oAcc.innerHTML++;
+									}
+								}	
+							});	
+						};
+						var oRef=oDiv.getElementsByTagName('a')[1];
+						oRef.onclick=function(){
+							//weibo.php?act=ref&id=12	
+							ajax({
+								url:	'liuyan.php',
+								data:	{act:'ref',id:id},
+								success:function(str){
+									//{error:0}
+									if(eval('('+str+')').error==0){
+										oRef.innerHTML++;
+									}
+								}	
+							});	
+						};
+						oNoMess.style.display='none';	
+						return oDiv;
+					}
+					
+					//2.onload获取一页数据
+					//weibo.php?act=get&page=1
+					getPageMsg(1);
+					function getPageMsg(n){
+						ajax({
+							url:	'liuyan.php',
+							data:	{act:'get',page:n},
+							success:function(str){
+								//[{id: ID, content: "内容", time: 时间戳, acc: 顶次数, ref: 踩次数}, {...}, ...]
+								var arr=eval('('+str+')');	
+								oDivList.innerHTML='';
+								for(var i=0;i<arr.length;i++){
+									var oDiv=createDiv(arr[i].id,arr[i].content,arr[i].time,arr[i].acc,arr[i].ref);
+									oDivList.appendChild(oDiv);
+								}
+							}
+						});
+					}	
+					
+					//3.获取页数，创建页码
+					getPage()
+					function getPage(){
+						//weibo.php?act=get_page_count
+						ajax({
+							url:	'liuyan.php',
+							data:	{act:'get_page_count'},
+							success:function(str){
+								//{count:页数}	
+								var json=eval('('+str+')');
+								oPage.innerHTML='';
+								for(var i=0;i<json.count;i++){
+									var oAnchor=document.createElement('a');
+									oAnchor.href='javascript:;';	
+									oAnchor.innerHTML=i+1;
+									oAnchor.onclick=function(){
+										for(var i=0;i<json.count;i++){
+											oPage.children[i].className='';	
+										}
+										this.className='active';
+										getPageMsg(parseInt(this.innerHTML));
+									};
+									oPage.appendChild(oAnchor);
+								}
+								oPage.children[0].className='active';
+								
+							}	
+						});
+					}
+				oBack.style.display='block';					
+			},800)
+			oBack.onclick=function(){
+			 	aColumn[3].style.display='none';
+				oBack.style.display='none';
+				oNav.className='nav animated zoomInUp';
+	  		}	
+		}
+
+
+
+
+
 //技能
 		oTechnique.onclick=function(){
 			oNav.className='nav animated bounceOut';
